@@ -1,0 +1,58 @@
+#Run pip install pycryptodome to install necessary packages
+#This implementation uses continuous block cipher
+from Crypto.Cipher import DES 
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+
+def encrypt(plaintext, key):
+    init = get_random_bytes(DES.block_size)#For CBC mode generates init combination
+    cipher = DES.new(key, DES.MODE_CBC, init)
+    ciphertext = cipher.encrypt(plaintext)
+    return init + ciphertext #adds initial combination to 
+
+def decrypt(ciphertext, key):
+    init = ciphertext[:DES.block_size]#gets initial combination to reverse
+    cipher = DES.new(key, DES.MODE_CBC, init)
+    plaintext = cipher.decrypt(ciphertext[DES.block_size:])
+    return plaintext
+
+key = b'aaaaaaaa'#string length should be 8
+plaintext = b'hello world'
+ciphertext = encrypt(pad(plaintext,16), key)
+print("Encrypted:", ciphertext)
+decrypted = unpad(decrypt(ciphertext, key),16)
+print("Decrypted:", decrypted)
+
+
+
+Explain
+Import necessary modules:
+Crypto.Cipher: Contains encryption and decryption functions.
+Crypto.Random: Provides functions for generating random bytes.
+Crypto.Util.Padding: Offers padding and unpadding functions for data.
+Define the encrypt function:
+Takes plaintext and a key as input.
+Generates a random initialization vector (IV) using get_random_bytes.
+Creates a DES cipher object in CBC mode with the provided key and IV.
+Encrypts the plaintext using the cipher and returns the IV concatenated with the ciphertext.
+Define the decrypt function:
+Takes ciphertext and a key as input.
+Extracts the IV from the ciphertext.
+Creates a DES cipher object in CBC mode with the key and extracted IV.
+Decrypts the ciphertext (excluding the IV) using the cipher and returns the plaintext.
+Set the encryption key (key) and plaintext (plaintext).
+Encrypt the plaintext:
+Pad the plaintext to a multiple of the block size (16 bytes for DES) using pad.
+Encrypt the padded plaintext using the encrypt function.
+Print the encrypted ciphertext.
+Decrypt the ciphertext:
+Use the decrypt function to decrypt the ciphertext.
+Unpad the decrypted plaintext using unpad.
+Print the decrypted plaintext.
+Note: DES is considered weak and not recommended for secure applications. It's used here for demonstration purposes. For security, consider using stronger algorithms like AES (Advanced Encryption Standard).
+
+
+
+
+
+

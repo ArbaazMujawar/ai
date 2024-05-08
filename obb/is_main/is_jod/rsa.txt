@@ -1,0 +1,48 @@
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto import Random
+
+random_generator = Random.new().read
+key = RSA.generate(2048, random_generator)
+public_key = key.publickey()
+private_key = key
+
+print("Public key:")
+print(public_key.export_key().decode())
+print("Private key:")
+print(private_key.export_key().decode())
+
+message = input("Enter the Text: ").encode()
+cipher = PKCS1_OAEP.new(public_key)
+ciphertext = cipher.encrypt(message)
+print("Ciphertext:", ciphertext.hex())
+
+# Decrypt the message using the private key
+cipher = PKCS1_OAEP.new(private_key)
+decrypted_message = cipher.decrypt(ciphertext)
+print("Decrypted message:", decrypted_message.decode())
+
+
+
+Explain
+
+Import necessary modules:
+Crypto.PublicKey.RSA: Provides RSA key generation and encryption/decryption functionality.
+Crypto.Cipher.PKCS1_OAEP: Implements the PKCS#1 OAEP padding scheme for RSA encryption.
+Crypto.Random: Generates random bytes for key generation.
+Generate RSA keys:
+Generate a new RSA key pair with a key size of 2048 bits using RSA.generate.
+Obtain the public key and assign it to public_key.
+Assign the private key to private_key.
+Print the keys:
+Export and print the public key using public_key.export_key().decode().
+Export and print the private key using private_key.export_key().decode().
+Take user input for the message to encrypt, encode it, and encrypt it using the public key:
+Get user input and encode it as bytes.
+Create a PKCS#1 OAEP cipher object (PKCS1_OAEP.new(public_key)).
+Encrypt the message using the public key and OAEP padding.
+Print the ciphertext in hexadecimal format.
+Decrypt the ciphertext using the private key:
+Create a new PKCS#1 OAEP cipher object with the private key (PKCS1_OAEP.new(private_key)).
+Decrypt the ciphertext using the private key and OAEP padding.
+Print the decrypted message.

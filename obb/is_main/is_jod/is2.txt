@@ -1,0 +1,39 @@
+from pycipher import caesar
+
+def caesar_encrypt(plaintext, key):
+    c = caesar.Caesar(key)
+    ciphertext = c.encipher(plaintext)
+    return ciphertext
+
+def caesar_decrypt(ciphertext, key):
+    c = caesar.Caesar(key)
+    plaintext = c.decipher(ciphertext)
+    return plaintext
+
+plaintext = input()
+key = int(input())
+ciphertext = caesar_encrypt(plaintext, key)
+decrypted_plaintext = caesar_decrypt(ciphertext, key)
+
+print('Plaintext:', plaintext)
+print('Ciphertext:', ciphertext)
+print('Decrypted plaintext:', decrypted_plaintext)
+
+
+"""
+Explain
+
+Importing the Caesar Cipher Module: The code begins by importing the Caesar cipher module from pycipher. This module provides functions for encrypting and decrypting text using the Caesar cipher.
+Caesar Encryption Function: The caesar_encrypt function takes two parameters: plaintext (the text to be encrypted) and key (the shift value for the Caesar cipher). Inside this function:
+It creates a Caesar cipher object c with the specified key.
+It uses the encipher method of the Caesar cipher object to encrypt the plaintext.
+It returns the ciphertext obtained after encryption.
+Caesar Decryption Function: The caesar_decrypt function takes two parameters: ciphertext (the text to be decrypted) and key (the same shift value used for encryption). Inside this function:
+It creates a Caesar cipher object c with the specified key.
+It uses the decipher method of the Caesar cipher object to decrypt the ciphertext.
+It returns the plaintext obtained after decryption.
+User Input: The code prompts the user to enter the plaintext and the key for encryption.
+Encryption and Decryption: It calls the caesar_encrypt function with the user-provided plaintext and key to obtain the ciphertext. Then, it calls the caesar_decrypt function with the ciphertext and the same key to obtain the decrypted plaintext.
+Printing the Results: Finally, the code prints the original plaintext, the ciphertext obtained after encryption, and the decrypted plaintext to the console.
+
+"""

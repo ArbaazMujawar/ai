@@ -1,0 +1,23 @@
+import hashlib
+
+message = input("Enter the Text: ").encode('utf-8')
+md5 = hashlib.md5()
+md5.update(message)
+digest = md5.digest()
+hex_digest = digest.hex()
+
+print("Message:", message.decode('utf-8'))
+print("MD5 Digest:", hex_digest)
+
+
+
+
+Explain 
+Import the hashlib module for hashing operations.
+Prompt the user to enter text (input("Enter the Text: ")) and encode it as UTF-8 (encode('utf-8')). The input is stored in the message variable.
+Create an MD5 hash object using hashlib.md5() and assign it to the variable md5.
+Update the hash object with the encoded message using md5.update(message).
+Calculate the digest (hash value) of the message by calling md5.digest(), which returns the digest as bytes.
+Convert the digest to its hexadecimal representation using digest.hex() and store it in hex_digest.
+Print the original message (message.decode('utf-8')) and its corresponding MD5 digest (hex_digest).
+The MD5 hash function generates a fixed-size hash value (128-bit or 32-character hexadecimal string) from input data of any size. It's commonly used for checksums, integrity verification, and in some cases, password hashing (though it's considered weak for cryptographic purposes due to vulnerabilities).

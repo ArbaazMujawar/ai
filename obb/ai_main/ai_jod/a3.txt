@@ -1,0 +1,67 @@
+import sys
+
+class Graph:
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = [[0 for column in range(vertices)] for row in range(vertices)]
+   
+    def printMST(self, parent):
+        print("Edge \tWeight")
+        for i in range(1, self.V):
+            print(parent[i], "-", i, "\t", self.graph[i][parent[i]])
+    
+    def minKey(self, key, mstSet):
+        min = sys.maxsize
+        min_index = None
+        for v in range(self.V):
+            if key[v] < min and mstSet[v] == False:
+                min = key[v]
+                min_index = v
+        return min_index
+    
+    def primMST(self):
+        key = [sys.maxsize] * self.V
+        parent = [None] * self.V
+        key[0] = 0
+        mstSet = [False] * self.V
+        parent[0] = -1
+        for cout in range(self.V):
+            u = self.minKey(key, mstSet)
+            mstSet[u] = True
+            for v in range(self.V):
+                if self.graph[u][v] > 0 and mstSet[v] == False and key[v] > self.graph[u][v]:
+                    key[v] = self.graph[u][v]
+                    parent[v] = u
+        self.printMST(parent)
+
+# Example usage:
+g = Graph(5)
+g.graph = [
+    [0, 2, 0, 6, 0],
+    [2, 0, 3, 8, 5],
+    [0, 3, 0, 0, 7],
+    [6, 8, 0, 0, 9],
+    [0, 5, 7, 9, 0]
+]
+g.primMST()
+
+
+
+Explain
+
+Graph Class:
+The Graph class initializes with the number of vertices (vertices) and creates an adjacency matrix (self.graph) to represent the graph.
+It has methods for printing the MST (printMST) and finding the minimum key (minKey) for Prim's algorithm.
+Prim's Algorithm (primMST method):
+The primMST method initializes key values (key) and parent array (parent) for each vertex in the graph.
+It sets the key value of the first vertex as 0 (since it's the starting vertex), and all other vertices' key values as infinity.
+It maintains a boolean array mstSet to track which vertices are already in the MST.
+The algorithm iterates self.V times, where self.V is the number of vertices in the graph:
+It selects the vertex (u) with the minimum key value among the vertices not yet included in the MST (mstSet[u] is False).
+Marks u as included in the MST (mstSet[u] = True).
+Updates the key values and parent pointers for adjacent vertices (v) of u if v is not already in the MST and the edge weight (self.graph[u][v]) is smaller than the current key value of v.
+After the iterations, it prints the MST using the printMST method.
+Example Usage:
+It provides an example of using the Graph class and Prim's algorithm to find the MST of a graph with 5 vertices and specified edge weights.
+It initializes a Graph object g with 5 vertices and sets its adjacency matrix with edge weights.
+It calls the primMST method on g to find and print the MST of the graph.
